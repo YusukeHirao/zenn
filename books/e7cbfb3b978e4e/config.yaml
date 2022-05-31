@@ -2,6 +2,7 @@ title: HTML Standard 今月のアップデート
 summary: "HTML Standardの更新を月ごとに掲載します。2022年3月から記載しています。HTML解体新書をひととおり読んで、その後にどんなアップデートがされているか確認したい方向けの本です。\n\nHTML解体新書をまだ読んでない人は是非読みましょう。\nhttps://www.borndigital.co.jp/book/25999.html"
 topics: ["html"]
 published: true
+allow_override: true
 price: 0
 chapters:
   - 2022-03
