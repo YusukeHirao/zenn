@@ -1,7 +1,7 @@
 ---
 title: フロントエンドid属性管理戦略
 emoji: 🆔
-type: idea
+type: tech
 topics: [frontend, html, アクセシビリティ, markuplint]
 published: true
 ---
