@@ -55,13 +55,13 @@ https://qiita.com/xrxoxcxox/items/2c498537292c6388cb80
   - [`for`属性](https://html.spec.whatwg.org/multipage/forms.html#attr-label-for)（`label`要素）
   - [`for`属性](https://html.spec.whatwg.org/multipage/form-elements.html#attr-output-for)（`output`要素）
   - [`aria-activedescendantd`プロパティ](https://www.w3.org/TR/wai-aria-1.2/#aria-activedescendant)
-  - [`aria-controlsd`プロパティ](https://www.w3.org/TR/wai-aria-1.2/#aria-controls)
-  - [`aria-describedbyd`プロパティ](https://www.w3.org/TR/wai-aria-1.2/#aria-describedby)
-  - [`aria-detailsd`プロパティ](https://www.w3.org/TR/wai-aria-1.2/#aria-details)
-  - [`aria-errormessaged`プロパティ](https://www.w3.org/TR/wai-aria-1.2/#aria-errormessage)
-  - [`aria-flowtod`プロパティ](https://www.w3.org/TR/wai-aria-1.2/#aria-flowto)
-  - [`aria-labelledbyd`プロパティ](https://www.w3.org/TR/wai-aria-1.2/#aria-labelledby)
-  - [`aria-ownsd`プロパティ](https://www.w3.org/TR/wai-aria-1.2/#aria-owns)
+  - [`aria-controls`プロパティ](https://www.w3.org/TR/wai-aria-1.2/#aria-controls)
+  - [`aria-describedby`プロパティ](https://www.w3.org/TR/wai-aria-1.2/#aria-describedby)
+  - [`aria-details`プロパティ](https://www.w3.org/TR/wai-aria-1.2/#aria-details)
+  - [`aria-errormessage`プロパティ](https://www.w3.org/TR/wai-aria-1.2/#aria-errormessage)
+  - [`aria-flowto`プロパティ](https://www.w3.org/TR/wai-aria-1.2/#aria-flowto)
+  - [`aria-labelledby`プロパティ](https://www.w3.org/TR/wai-aria-1.2/#aria-labelledby)
+  - [`aria-owns`プロパティ](https://www.w3.org/TR/wai-aria-1.2/#aria-owns)
 - CSSのセレクタ
 - DOM操作からの参照（`getElementById`や`querySelector`など）
 - **URLフラグメント**（URLの末尾の`#`で始まる識別子）
