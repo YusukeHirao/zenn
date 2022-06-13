@@ -153,7 +153,7 @@ export default function () {
 }
 ```
 
-なお、コンポーネント内では[`id-duplication`](https://markuplint.dev/rules/id-duplication)が有効になっているので、ここで重複定義をしてしまうことはない。
+なお、`pages`内でも[`id-duplication`](https://markuplint.dev/rules/id-duplication)が有効になっているので、ここで重複定義をしてしまうことはない。
 
 ---
 
