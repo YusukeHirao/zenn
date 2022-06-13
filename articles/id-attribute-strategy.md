@@ -54,7 +54,7 @@ https://qiita.com/xrxoxcxox/items/2c498537292c6388cb80
   - [`list`属性](https://html.spec.whatwg.org/multipage/input.html#attr-input-list)（`input`要素）
   - [`for`属性](https://html.spec.whatwg.org/multipage/forms.html#attr-label-for)（`label`要素）
   - [`for`属性](https://html.spec.whatwg.org/multipage/form-elements.html#attr-output-for)（`output`要素）
-  - [`aria-activedescendantd`プロパティ](https://www.w3.org/TR/wai-aria-1.2/#aria-activedescendant)
+  - [`aria-activedescendant`プロパティ](https://www.w3.org/TR/wai-aria-1.2/#aria-activedescendant)
   - [`aria-controls`プロパティ](https://www.w3.org/TR/wai-aria-1.2/#aria-controls)
   - [`aria-describedby`プロパティ](https://www.w3.org/TR/wai-aria-1.2/#aria-describedby)
   - [`aria-details`プロパティ](https://www.w3.org/TR/wai-aria-1.2/#aria-details)
