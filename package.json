@@ -6,6 +6,6 @@
   "devDependencies": {
     "prettier": "^2.7.1",
     "prettier-plugin-md-nocjsp": "^1.2.0",
-    "zenn-cli": "^0.1.114"
+    "zenn-cli": "^0.1.115"
   }
 }
