@@ -1,11 +1,12 @@
 {
   "scripts": {
     "dev": "zenn preview",
+    "new": "zenn new:article",
     "lint": "prettier -w \"**/*.md\""
   },
   "devDependencies": {
     "prettier": "^2.7.1",
     "prettier-plugin-md-nocjsp": "^1.4.0",
-    "zenn-cli": "^0.1.128"
+    "zenn-cli": "^0.1.131"
   }
 }
