@@ -5,8 +5,8 @@
     "lint": "prettier -w \"**/*.md\""
   },
   "devDependencies": {
-    "prettier": "^2.7.1",
-    "prettier-plugin-md-nocjsp": "^1.4.0",
-    "zenn-cli": "^0.1.131"
+    "prettier": "^2.8.1",
+    "prettier-plugin-md-nocjsp": "^1.5.0",
+    "zenn-cli": "^0.1.133"
   }
 }
