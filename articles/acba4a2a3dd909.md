@@ -3,7 +3,7 @@ title: "WAI−ARIA中級編 ロールの決まり方"
 emoji: "🧑‍🏫"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["wai-aria", "html", "アクセシビリティ"]
-published: false
+published: true
 ---
 
 前回の「[WAI-ARIAを学ぶときに整理しておきたいこと](https://zenn.dev/yusukehirao/articles/e3512a58df58fd)」（以下、「前回の記事」と略）やYouTubeで生配信した「[WAI-ARIA勉強会](https://www.youtube.com/watch?v=ZLL0_W5w1vo)」で
