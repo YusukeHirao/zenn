@@ -50,7 +50,7 @@ HTML Standardに`popover`属性をはじめとした[Popover API](https://momdo.
 - `popoverhidetarget`属性: 閉じるのみ
 - `popovershowtarget`属性: 開くのみ
 
-著者の感想としては「本気でJavaScript不要にしたかったんだな^[実際、提案の[**ゴール**](https://open-ui.org/components/popover.research.explainer#goals)には “Avoid the need for any Javascript for most common cases.”（ほとんどの場合、Javascriptは必要ありません。）と記載されています]」ということが伝わってきます。
+筆者の感想としては「本気でJavaScript不要にしたかったんだな^[実際、提案の[**ゴール**](https://open-ui.org/components/popover.research.explainer#goals)には “Avoid the need for any Javascript for most common cases.”（ほとんどの場合、Javascriptは必要ありません。）と記載されています]」ということが伝わってきます。
 
 ## 簡易非表示（Light Dismiss）
 
@@ -124,7 +124,7 @@ element.addEventListener("toggle", (ev) => {
 ## アクセシビリティ
 
 :::message
-HTML Standardに記載されている情報ではなく、[Popover API (Explainer)](https://open-ui.org/components/popover.research.explainer)による情報を元に、著者による調査と解釈も含めて解説します。
+HTML Standardに記載されている情報ではなく、[Popover API (Explainer)](https://open-ui.org/components/popover.research.explainer)による情報を元に、筆者による調査と解釈も含めて解説します。
 :::
 
 気になるアクセシビリティオブジェクトのマッピングですが、セマンティクスへの影響（つまりroleへの上書き）は基本的にないことになっています。しかし、`popover`属性を付与した時点で非表示（`display:none`）になるので、その時点ではアクセシビリティツリーから消えることを意味するので、その点は留意が必要です。表示された時点でセマンティクスが変化することはありません。
