@@ -176,7 +176,7 @@ CSSでは擬似クラスが2つ適用されます。
 <button type="button" popovertoggletarget="m1">開閉ボタン</button>
 ```
 
-さらに、明確に併用できないことがDOM APIで厳密に規定されました。`popup`属性をもつ`dialog`要素が`showModal`を呼び出すと`DOMException`エラーとなります^[2023年2月現在 Chrome Canaryでは未実装]。
+さらに、明確に併用できないことがDOM APIで厳密に規定されました。`popover`属性をもつ`dialog`要素が`showModal`を呼び出すと`DOMException`エラーとなります^[2023年2月現在 Chrome Canaryでは未実装]。
 
 ```html
 <dialog popover="auto" id="m1">ダイアログ</dialog>
