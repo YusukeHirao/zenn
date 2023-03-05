@@ -1,5 +1,5 @@
 ---
-title: "WAI−ARIA中級編 ロールの決まり方"
+title: "WAI-ARIA中級編 ロールの決まり方"
 emoji: "🧑‍🏫"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["wai-aria", "html", "アクセシビリティ"]
