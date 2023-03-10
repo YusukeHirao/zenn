@@ -6,13 +6,22 @@ topics: [HTML, JavaScript, UI]
 published: true
 ---
 
+:::details 更新履歴
+
+- 2023-03-10 [属性の破壊的変更](https://github.com/whatwg/html/pull/8962)による修正
+- 2023-02-19 初稿
+
+[Git履歴](https://github.com/YusukeHirao/zenn/commits/main/articles/popover-api-and-attributes.md)
+:::
+
 HTML Standardに`popover`属性をはじめとした[Popover API](https://momdo.github.io/html/popover.html)が正式にマージされました。[Open UI](https://open-ui.org/)によって提案されていた^[[Popover API (Explainer)](https://open-ui.org/components/popover.research.explainer)]APIで、名前がPopoverなのかPopupなのか紆余曲折の末、やっとHTML Standardとなります。
 
 現段階で実装されているブラウザは少ないですが、簡易サンプルを作ったので体験しながら読んでいただくといいかもしれません。
 
 :::message
 
-2023年2月現在ではGoogle Chrome Canaryのみで動作確認できています。
+- 2023年2月19日時点でGoogle Chrome Canaryのみで動作確認できていました。
+- 2023年3月現在では仕様変更の影響か動作確認できるブラウザがありません。
 
 :::
 
@@ -27,28 +36,25 @@ HTML Standardに`popover`属性をはじめとした[Popover API](https://momdo.
 まずはHTMLの属性が新しく追加されているところに注目しましょう。
 
 - [`popover`属性](https://momdo.github.io/html/popover.html#attr-popover)
-- [ポップオーバーターゲット属性](https://momdo.github.io/html/popover.html#the-popover-target-attributes)
-  - [`popovertoggletarget`属性](https://momdo.github.io/html/popover.html#attr-popover-toggle-target)
-  - [`popoverhidetarget`属性](https://momdo.github.io/html/popover.html#attr-popover-hide-target)
-  - [`popovershowtarget`属性](https://momdo.github.io/html/popover.html#attr-popover-show-target)
+- [`popovertarget`属性](https://html.spec.whatwg.org/multipage/popover.html#attr-popovertarget)
+- [`popovertargetaction`属性](https://html.spec.whatwg.org/multipage/popover.html#attr-popovertargetaction)
 
-以上の4つが追加されました。`popover`属性はポップオーバーする要素自体に。ポップオーバーターゲット属性はそれを展開する**ボタン**^[`button`要素と、`type=submit`・`type=button`・`type=reset`・`type=image`をもつ`input`要素]に対して設定します。
+以上の3つが追加されました。`popover`属性はポップオーバーする要素自体に。ポップオーバーターゲット属性はそれを展開する**ボタン**^[`button`要素と、`type=submit`・`type=button`・`type=reset`・`type=image`をもつ`input`要素]に対して設定します。
 
 ```html
 <div popover="auto" id="p1">ポップオーバーUI</div>
 
-<button type="button" popovertoggletarget="p1">開閉ボタン</button>
+<button type="button" popovertarget="p1">開閉ボタン</button>
 ```
 
 たったこれだけで、ポップオーバーUIが動作します。**JavaScriptは不要**です。ポップオーバーターゲット属性のidがマッチしていれば、どんなに離れた場所にある要素でも動作するので、遠隔操作版の`<details>`・`<summary>`と言ってもいいもしれません。
 
 `popover`属性が付与された要素は、デフォルトで非表示（`display: none`状態）となり、展開された場合には[トップレイヤー](https://fullscreen.spec.whatwg.org/#top-layer)に表示されます。トップレイヤーとは、簡単に言うと、`z-index`をどんなに大きな数にしても超えられない表示レイヤーで、`<dialog>`もここに表示されます。
 
-ポップオーバーターゲット属性は3種類あり、それぞれ目的に合わせて柔軟に使い分けることができます。
+ポップオーバーUIを制御するトリガー側の属性は2種類あります。
 
-- `popovertoggletarget`属性: 閉じていれば開き、開いていれば閉じる
-- `popoverhidetarget`属性: 閉じるのみ
-- `popovershowtarget`属性: 開くのみ
+- `popovertarget`属性: 対象のポップオーバーUIの**ID**を指定します。
+- `popovertargetaction`属性: アクションを種類を指定します。`toggle`、`show`、`hide`のいずれかです。デフォルトは`toggle`なので、この属性は省略することが出来ます。
 
 筆者の感想としては「本気でJavaScript不要にしたかったんだな^[実際、提案の[**ゴール**](https://open-ui.org/components/popover.research.explainer#goals)には “Avoid the need for any Javascript for most common cases.”（ほとんどの場合、Javascriptは必要ありません。）と記載されています]」ということが伝わってきます。
 
@@ -140,7 +146,7 @@ HTML Standardに記載されている情報ではなく、[Popover API (Explaine
 HTMLの記述の順番をボタン→ポップオーバーUIのとすることで、スクリーンリーダーのカーソルが自然と開いた要素に移動できるようにします。
 
 ```html
-<button type="button" popovertoggletarget="p1">開閉ボタン</button>
+<button type="button" popovertarget="p1">開閉ボタン</button>
 <div popover="auto" id="p1">ポップオーバーUI</div>
 ```
 
@@ -151,7 +157,7 @@ HTMLの記述の順番をボタン→ポップオーバーUIのとすること�
 ```html
 <div popover="auto" id="p1" aria-live="polite">ポップオーバーUI</div>
 
-<button type="button" popovertoggletarget="p1">開閉ボタン</button>
+<button type="button" popovertarget="p1">開閉ボタン</button>
 ```
 
 他にも、`autofocus`属性を使って強制的にフォーカス移動させる方法も考えることができますが^[実際、`autofocus`属性の仕様もポップオーバーと併用できる点が追記されています。[差分](https://whatpr.org/html/8717/0f1d234...3a3a9ed/interaction.html)]、トグルボタンに戻ってくる手段がJavaScriptを使う以外におそらくないため有効な方法とは言えません。そもそも`dialog`要素の[モードレスダイアログでフォーカスを移動させることの問題点](https://github.com/whatwg/html/issues/7707)が指摘されています。基本的には**フォーカスの強制移動は避けて**、それでもどうしても必要な場合は十分にアクセシビリティを考慮して採用するべきでしょう。
@@ -173,7 +179,7 @@ CSSでは擬似クラスが2つ適用されます。
 <dialog popover="auto" id="m1">ダイアログ</dialog>
 
 <!-- showModalが呼び出されるわけではない -->
-<button type="button" popovertoggletarget="m1">開閉ボタン</button>
+<button type="button" popovertarget="m1">開閉ボタン</button>
 ```
 
 さらに、明確に併用できないことがDOM APIで厳密に規定されました。`popover`属性をもつ`dialog`要素が`showModal`を呼び出すと`DOMException`エラーとなります^[2023年2月現在 Chrome Canaryでは未実装]。
@@ -193,6 +199,4 @@ Popover APIはあくまでもモードレスなUIにのみ利用できる、と�
 
 ## ブラウザ実装状況
 
-2023年2月時点でGoogle Chrome Canaryで動作確認できます。
-
-まだ、[MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes)や[Can I Use](https://caniuse.com/?search=popover)にも情報が作られていないので、徐々に公開されるのを待ちましょう。
+2023年2月19日時点でGoogle Chrome Canaryのみで動作確認できていました。しかし、2023年3月に属性の名前や役割を変えるなどの[仕様変更](https://github.com/whatwg/html/pull/8962)がありました。その影響か動作確認できるブラウザがありません。まだまだ仕様変更が起こる可能性があります。また、[MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes)（[MDNへの追加のIssue](https://github.com/mdn/content/issues/25125)）や[Can I Use](https://caniuse.com/?search=popover)にも情報が作られていないので、徐々に公開されるのを待ちましょう。
