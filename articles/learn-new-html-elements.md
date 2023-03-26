@@ -94,7 +94,7 @@ Content（内容）として許可できるコンテンツカテゴリを示し�
 
 要素がもつ**暗黙のセマンティクス（Implicit ARIA semantics）**（「暗黙のロール」と言い換えてもよい）と、設定して良いロール、ARIAステート・プロパティが規定されています。
 
-`<search>`は暗黙のロールが`search`であり、`form`、`group`、`none`、`presentation`、`region`というロールの上書きが許可されています。そして“Global aria-_ attributes and any aria-_ attributes applicable to the allowed roles.”という規定は、まず[グローバルARIAステート・プロパティ](https://www.w3.org/TR/wai-aria-1.2/#global_states)が許可されていることを示し、加えて「ロールに規定されている固有のARIAステート・プロパティ」が許可されることを意味しています。
+`<search>`は暗黙のロールが`search`であり、`form`、`group`、`none`、`presentation`、`region`というロールの上書きが許可されています。そして“Global aria-\* attributes and any aria-\* attributes applicable to the allowed roles.”という規定は、まず[グローバルARIAステート・プロパティ](https://www.w3.org/TR/wai-aria-1.2/#global_states)が許可されていることを示し、加えて「ロールに規定されている固有のARIAステート・プロパティ」が許可されることを意味しています。
 
 この「ロールに規定されている固有のARIAステート・プロパティ」というのは、その要素がどのロールの状態にあるかによって変わります。`<search>`は暗黙のロールが`search`なので、何も指定がなければ[`search`ロール](https://www.w3.org/TR/wai-aria-1.2/#search)の規定するARIAステートとプロパティが許可されますが、`<search role="form">`としていたら、それは[`form`ロール](https://www.w3.org/TR/wai-aria-1.2/#form)に規定されているものしか許可されません。ロールによって異なるので「要素 = 許可されるARIAステート」と**直接紐付けないように注意しましょう**。
 
