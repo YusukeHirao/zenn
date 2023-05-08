@@ -19,7 +19,7 @@ published: true
 
 <!-- prettier-ignore-start -->
 ![スクリーンショット: GitHub Actionsのワークフロー](/images/gh-actions-split-jobs/workflows.png)
-*`os-setup`、`dev-setup`、`build`、`lint`、`test`、`isolated-env`、`playground`の6つのジョブがあり、部分的に依存したフローになっている*
+*`os-setup`、`dev-setup`、`build`、`lint`、`test`、`isolated-env`、`playground`の7つのジョブがあり、部分的に依存したフローになっている*
 <!-- prettier-ignore-end -->
 
 ## 改善前の課題
@@ -172,7 +172,7 @@ jobs:
 
 - [`action/cache`](https://github.com/actions/cache#cache-action)の`action/cache/save`と`action/cache/restore`を使い分けて実行する
 - `enableCrossOsArchive`を有効にすることで、Linux環境で作成したファイルをWindowsでも利用できるようにする。これを有効にしていないとWindowsでリストアできない。
-- キーに`github.sha`を利用している。コミットごとにビルドファイルを作るようにしないとキャッシュされた結果を再利用してしまうのを防ぐためだ。ここでは単純にこのワークフロー内で共有できればいいので、このハッシュ値で問題ない。
+- キーに`github.sha`を利用している。コミットごとにビルドファイルを作るようにしないと、キャッシュされた結果を再利用してしまい、修正したコミットのファイルでテストできなくなってしまう。これを防ぐためだ。ここでは単純にこのワークフロー内で共有できればいいので、コミット単位でユニークに生成される`github.sha`のハッシュ値で問題ない。
 
 ### 次回のワークフローのでも再利用できるキャッシュを作る
 
