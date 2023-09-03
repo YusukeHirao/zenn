@@ -3,7 +3,7 @@ title: dl/dt/ddのスクリーンリーダーの読み上げをなんとかす�
 emoji: 🤬
 type: tech
 topics: [waiaria, html, アクセシビリティ]
-published: false
+published: true
 ---
 
 :::message alert
