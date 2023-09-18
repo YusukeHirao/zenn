@@ -203,6 +203,22 @@ CSSでは擬似クラスが1つ適用されます。
 
 Popover APIは簡易非表示（Light Dismiss）が便利なため、モーダルダイアログでも利用したいところですが`showModal`メソッドが呼び出せないため、簡易非表示（Light Dismiss）が有効になりません。実装の際は注意が必要です。
 
+## `id`属性を使わない実装
+
+`Element.popoverTargetElement`にポップオーバー要素のノードを渡すことで、`id`属性を使わずに実装することができます。
+
+```html
+<button type="button">開閉ボタン</button>
+<div popover>ポップオーバーUI</div>
+```
+
+```js
+const button = document.querySelector("button");
+button.popoverTargetElement = button.nextElementSibling;
+```
+
+これにより、不要な`id`値を生成することなく実装することができます。Reactなどの実装でも`useRef`を使って同様のことができるでしょう。
+
 ## ブラウザ実装状況
 
 2023年9月現在でChromeとEdgeが対応しています。Safariは`v17`から対応予定です。([HTMLElement API: popover | Can I use](https://caniuse.com/mdn-api_htmlelement_popover))
