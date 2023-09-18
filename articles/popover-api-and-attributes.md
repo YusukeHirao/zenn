@@ -8,59 +8,60 @@ published: true
 
 :::details 更新履歴
 
+- 2023-09-18 [3/10〜9/18までの更新](https://github.com/whatwg/html/issues?q=label%3A%22topic%3A+popover%22+is%3Aclosed)に対応する修正
 - 2023-03-10 [属性の破壊的変更](https://github.com/whatwg/html/pull/8962)による修正
 - 2023-02-19 初稿
 
 [Git履歴](https://github.com/YusukeHirao/zenn/commits/main/articles/popover-api-and-attributes.md)
 :::
 
-HTML Standardに`popover`属性をはじめとした[Popover API](https://momdo.github.io/html/popover.html)が正式にマージされました。[Open UI](https://open-ui.org/)によって提案されていた^[[Popover API (Explainer)](https://open-ui.org/components/popover.research.explainer)]APIで、名前がPopoverなのかPopupなのか紆余曲折の末、やっとHTML Standardとなります。
+HTML Standardに`popover`属性をはじめとした[Popover API](https://html.spec.whatwg.org/multipage/popover.html)が正式にマージされました。[Open UI](https://open-ui.org/)によって提案されていた^[[Popover API (Explainer)](https://open-ui.org/components/popover.research.explainer)]APIで、名前がPopoverなのかPopupなのか紆余曲折の末、やっとHTML Standardとなります。
 
 現段階で実装されているブラウザは少ないですが、簡易サンプルを作ったので体験しながら読んでいただくといいかもしれません。
 
 :::message
 
-- 2023年2月19日時点でGoogle Chrome Canaryのみで動作確認できていました。
-- 2023年3月現在では仕様変更の影響か動作確認できるブラウザがありません。
+- ~~2023年2月19日時点でGoogle Chrome Canaryのみで動作確認できていました。~~
+- ~~2023年3月現在では仕様変更の影響か動作確認できるブラウザがありません。~~
+- 2023年9月現在でChromeとEdgeが対応しています。Safariは`v17`から対応予定です。([HTMLElement API: popover | Can I use](https://caniuse.com/mdn-api_htmlelement_popover))
 
 :::
 
-:::details 簡易サンプル
+:::details CodeSandboxの簡易サンプル
 
 @[codesandbox](https://codesandbox.io/embed/popover-api-f9fxex?fontsize=14&hidenavigation=1&theme=dark)
 
 :::
 
-## 4つの属性
+## 3つの属性
 
 まずはHTMLの属性が新しく追加されているところに注目しましょう。
 
-- [`popover`属性](https://momdo.github.io/html/popover.html#attr-popover)
+- [`popover`属性](https://html.spec.whatwg.org/multipage/popover.html#attr-popover)
 - [`popovertarget`属性](https://html.spec.whatwg.org/multipage/popover.html#attr-popovertarget)
 - [`popovertargetaction`属性](https://html.spec.whatwg.org/multipage/popover.html#attr-popovertargetaction)
 
-以上の3つが追加されました。`popover`属性はポップオーバーする要素自体に。ポップオーバーターゲット属性はそれを展開する**ボタン**^[`button`要素と、`type=submit`・`type=button`・`type=reset`・`type=image`をもつ`input`要素]に対して設定します。
+以上の3つが追加されました。`popover`属性はポップオーバーする要素自体に。`popovertarget`属性と`popovertargetaction`属性はそれを展開する**ボタン**^[`button`要素と、`type=submit`・`type=button`・`type=reset`・`type=image`をもつ`input`要素]に対して設定します。つまり、`a`要素や`div`要素には設定できません。これはアクセシビリティの観点から革新的と言えます。**ついにdivボタンが消える…！**
 
 ```html
-<div popover="auto" id="p1">ポップオーバーUI</div>
-
 <button type="button" popovertarget="p1">開閉ボタン</button>
+<div popover id="p1">ポップオーバーUI</div>
 ```
 
-たったこれだけで、ポップオーバーUIが動作します。**JavaScriptは不要**です。ポップオーバーターゲット属性のidがマッチしていれば、どんなに離れた場所にある要素でも動作するので、遠隔操作版の`<details>`・`<summary>`と言ってもいいもしれません。
+たったこれだけで、ポップオーバーUIが動作します。**JavaScriptは不要**です。`popovertarget`属性のidがマッチしていれば、`<details>`・`<summary>`と同様にJavaScriptからメソッドを呼び出すことなく実装できます。
 
-`popover`属性が付与された要素は、デフォルトで非表示（`display: none`状態）となり、展開された場合には[トップレイヤー](https://fullscreen.spec.whatwg.org/#top-layer)に表示されます。トップレイヤーとは、簡単に言うと、`z-index`をどんなに大きな数にしても超えられない表示レイヤーで、`<dialog>`もここに表示されます。
+`popover`属性が付与された要素は、デフォルトで非表示（`display: none`状態）となり、展開された場合には[トップレイヤー](https://fullscreen.spec.whatwg.org/#top-layer)に表示されます。トップレイヤーとは、簡単に言うと、`z-index`をどんなに大きな数にしても超えられない表示レイヤーで、`<dialog>`もここに表示されます。`popover`属性の値は「空」か`auto`か`manual`で、デフォルトは`auto`です。「空」は`auto`と同等なので、値なしで`<div popover>`と書くこともできます。
 
 ポップオーバーUIを制御するトリガー側の属性は2種類あります。
 
 - `popovertarget`属性: 対象のポップオーバーUIの**ID**を指定します。
 - `popovertargetaction`属性: アクションを種類を指定します。`toggle`、`show`、`hide`のいずれかです。デフォルトは`toggle`なので、この属性は省略することが出来ます。
 
-筆者の感想としては「本気でJavaScript不要にしたかったんだな^[実際、提案の[**ゴール**](https://open-ui.org/components/popover.research.explainer#goals)には “Avoid the need for any Javascript for most common cases.”（ほとんどの場合、Javascriptは必要ありません。）と記載されています]」ということが伝わってきます。
+筆者の感想としては「**本気でJavaScript不要にしたかったんだな**^[実際、提案の[**ゴール**](https://open-ui.org/components/popover.research.explainer#goals)には “Avoid the need for any Javascript for most common cases.”（ほとんどの場合、Javascriptは必要ありません。）と記載されています]」ということが伝わってきます。
 
 ## 簡易非表示（Light Dismiss）
 
-今回新たに[**簡易非表示**](https://momdo.github.io/html/popover.html#popover-light-dismiss)（英語原版では**Light Dismiss**）^[簡易非表示という言葉は、日本語翻訳のページに合わせています]という概念が登場しました。
+今回新たに[**簡易非表示**](https://html.spec.whatwg.org/multipage/popover.html#popover-light-dismiss)（英語原版では**Light Dismiss**）^[簡易非表示という言葉は、日本語翻訳のページに合わせています]という概念が登場しました。
 
 そんなに難しいものではなく
 
@@ -69,18 +70,18 @@ HTML Standardに`popover`属性をはじめとした[Popover API](https://momdo.
 
 という単純な機能ですね。外側をクリックは一般的によく採用されてきたパターンですし、ESCキーも同様にキーボード操作でも容易に閉じることができるでアクセシビリティも担保できています。
 
-この**簡易非表示**は、`popover="auto"`というように属性値に`auto`を指定したときのみに自動的に有効になります。これもJavaScriptを使わずに有効になるのはとても有用です。
+この**簡易非表示（Light Dismiss）** は、`popover`属性が`auto`のときに有効になります（つまり値なしでもOK）。これもJavaScriptを使わずに有効になるのはとても有用です。
 
-## 複数表示と自動非表示
+## auto/manual
 
 `popover`属性の値は`auto`と`manual`を受け取りますが、この2つの違いは先に説明した簡易非表示以外もあります。
 
 `auto`は**開いたときに他のポップオーバーUIを閉じます**。一方、`manual`は**他のポップオーバーを閉じません**。表にまとめると、
 
-| 値       | 複数表示 | 他のポップオーバーUIを | 簡易非表示 |
-| -------- | -------- | ---------------------- | ---------- |
-| `auto`   | できない | 閉じる                 | 有効       |
-| `manual` | できる   | 閉じない               | 無効       |
+| 値       | 複数表示 | 他のポップオーバーUIを | 簡易非表示（Light Dismiss） |
+| -------- | -------- | ---------------------- | --------------------------- |
+| `auto`   | できない | 閉じる                 | 有効                        |
+| `manual` | できる   | 閉じない               | 無効                        |
 
 ということになります。目的合わせて使い分けるといいでしょう。
 
@@ -93,22 +94,30 @@ HTML Standardに`popover`属性をはじめとした[Popover API](https://momdo.
 3つのメソッドを使うことができます。
 
 ```html
-<div popover="auto" id="p1">ポップオーバーUI</div>
+<div popover id="p1">ポップオーバーUI</div>
 ```
 
 ```js
 const element = document.querySelector("#p1");
-element.showPopover();
-element.hidePopover();
-element.togglePopover();
 
-// togglePopoverはfocusPreviousElementオプションを受け取りますが、詳細は調査中です
+// ポップオーバーUIを表示する
+element.showPopover();
+
+// ポップオーバーUIを非表示にする
+element.hidePopover();
+
+// 表示・非表示を切り替える（戻り値は開閉の結果）
+const isShow = element.togglePopover();
+
+// 強制的に表示・非表示を切り替える
 element.togglePopover(true);
 ```
 
+`popover`属性を持たない要素を`showPopover`などで呼び出すと例外（[`NotSupportedError`](https://webidl.spec.whatwg.org/#notsupportederror)）を投げます。
+
 ### イベント
 
-イベントは2種類です。イベントオブジェクトは`newState`と`oldState`というプロパティを持ちます。
+イベントは`beforetoggle`と`toggle`の2種類です。イベントオブジェクトは[`ToggleEvent`](https://html.spec.whatwg.org/multipage/interaction.html#toggleevent)インターフェイスで`newState`と`oldState`というプロパティを持ちます。
 
 ```js
 element.addEventListener("beforeToggle", (ev) => {
@@ -130,73 +139,78 @@ element.addEventListener("toggle", (ev) => {
 ## アクセシビリティ
 
 :::message
-HTML Standardに記載されている情報ではなく、[Popover API (Explainer)](https://open-ui.org/components/popover.research.explainer)による情報を元に、筆者による調査と解釈も含めて解説します。
+HTML Standardに記載されている情報だけではなく、[Popover API (Explainer)](https://open-ui.org/components/popover.research.explainer)による情報を元に、筆者による調査と解釈も含めて解説します。
 :::
 
-気になるアクセシビリティオブジェクトのマッピングですが、セマンティクスへの影響（つまりroleへの上書き）は基本的にないことになっています。しかし、`popover`属性を付与した時点で非表示（`display:none`）になるので、その時点ではアクセシビリティツリーから消えることを意味するので、その点は留意が必要です。表示された時点でセマンティクスが変化することはありません。
+### アクセシビリティオブジェクトのマッピング
 
-一方、ポップオーバーターゲット属性を付与したボタン側には`expanded`ステートがアクセシビリティオブジェクトに公開されます^[2023年2月現在 Chrome Canaryにて観測]。つまり`aria-expanded`を付与させたのと同様になるということですね。ここも自動的に制御されるのでJavaScript不要で、かゆいところに手が届いています。
+気になるアクセシビリティオブジェクトのマッピングですが、以下のような変化が起こります^[2023年9月現在Chromeにて観測]。
+
+| 要素                          | ロール                                                                                                                  | ステート              |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------- | --------------------- |
+| `popover`属性をもつ要素       | `group`                                                                                                                 |                       |
+| `popovertarget`属性をもつ要素 | `button`（変化なし^[暗黙的に`button`ロールになる`button`要素と`input`要素にしか`popovertarget`属性は許可されないため]） | `expanded=false/true` |
+
+また`popover`属性を付与した時点で非表示（`display:none`）になりアクセシビリティツリーから消えることを意味するので、その点は留意が必要です。
 
 ### 読み上げに関する工夫
 
-上記のようにセマンティクスの影響がないことや、あくまで`expanded`での関係になるので、モーダルダイアログと異なりフォーカスが移動することはありません。また、読み上げの順番に影響を与えることもありません。この場合にはいくつかの工夫が必要となるでしょう。
+以下のように言及されています。
 
-#### DOMの順番で工夫する
+> Whenever possible ensure the popover element is placed immediately after its triggering element in the DOM. Doing so will help ensure that the popover is exposed in a logical programmatic reading order for users of assistive technology, such as screen readers.
 
-HTMLの記述の順番をボタン→ポップオーバーUIのとすることで、スクリーンリーダーのカーソルが自然と開いた要素に移動できるようにします。
+これは、可能な限りポップオーバー要素を、それをトリガーする要素の直後にDOM内に配置するようにすることを推奨しています。このようにすることで、スクリーンリーダーなどの支援技術を使用するユーザーにとって、論理的なプログラム読み取り順序で公開されることを確保するのに役立ちます。
 
 ```html
 <button type="button" popovertarget="p1">開閉ボタン</button>
-<div popover="auto" id="p1">ポップオーバーUI</div>
+<div popover id="p1">ポップオーバーUI</div>
 ```
 
-#### ライブリージョンを利用する
+### フォーカスの移動
 
-ポップオーバーUIが表示されたタイミングで読み上げます。ただし、再度読みげたり詳細な読み上げ操作をするには、その要素に移動しないといけないので、場合によってはあまり上手い方法とは言えません。
+基本的にトリガー要素からポップオーバー要素にフォーカスは移動しません。しかしポップオーバーの要素内に`autofocus`属性をもつフォーカス可能要素があれば移動します。
 
 ```html
-<div popover="auto" id="p1" aria-live="polite">ポップオーバーUI</div>
-
 <button type="button" popovertarget="p1">開閉ボタン</button>
+<div popover id="p1">
+  <button autofocus>開くと同時にフォーカスが当たる要素</button>
+</div>
 ```
 
-他にも、`autofocus`属性を使って強制的にフォーカス移動させる方法も考えることができますが^[実際、`autofocus`属性の仕様もポップオーバーと併用できる点が追記されています。[差分](https://whatpr.org/html/8717/0f1d234...3a3a9ed/interaction.html)]、トグルボタンに戻ってくる手段がJavaScriptを使う以外におそらくないため有効な方法とは言えません。そもそも`dialog`要素の[モードレスダイアログでフォーカスを移動させることの問題点](https://github.com/whatwg/html/issues/7707)が指摘されています。基本的には**フォーカスの強制移動は避けて**、それでもどうしても必要な場合は十分にアクセシビリティを考慮して採用するべきでしょう。
+この場合、ポップオーバーが閉じられたとき、フォーカスがポップオーバー要素の内側にある場合は**トリガー要素にフォーカスが戻ります**（ポップオーバー要素の外側の場合はそのままフォーカスは移動しません）。
+
+ただし`popover="manual"`の場合は、ポップオーバーが閉じてもフォーカスは戻りません^[ただし、ポップオーバーがアクセシビリティツリー上から消えるのでフォーカスは浮いた状態となります。]。これは、JavaScriptで独自の実装をすることを想定しているためと考えられます。
 
 ## CSS擬似クラス
 
-CSSでは擬似クラスが2つ適用されます。
+Popover APIのページには擬似クラスについて言及はありませんが、[デフォルトCSS](https://html.spec.whatwg.org/multipage/rendering.html#flow-content-3)の定義と、[擬似クラス](https://html.spec.whatwg.org/multipage/semantics-other.html#selector-popover-open)のページで仕様を確認することができます。
 
-- `:open`: 表示時に適用されるクラス
-- `:closed`: 非表示時に適用されるクラス
+CSSでは擬似クラスが1つ適用されます。
 
-基本的には非表示状態は`display: none`となるので積極的な活用方法はないように思いますが、`transition`などをうまく利用したアニメーションを実装する場合には必要になるかも知れません。
+- `:popover-open`: 表示時に適用されるクラス
 
 ## `dialog`要素での利用
 
-結論から言うと、モーダルダイアログに利用することは**できません**。なぜかと言うと、ポップオーバーターゲット属性からJavaScript（DOM API）を使用せずに呼び出す場合、`showModal`に相当する呼び出しができないからです。
+結論から言うと、モーダルダイアログに利用することは**できません**。`popovertarget`属性は`showModal`メソッドに相当する呼び出しができないからです。
 
 ```html
-<dialog popover="auto" id="m1">ダイアログ</dialog>
-
 <!-- showModalが呼び出されるわけではない -->
 <button type="button" popovertarget="m1">開閉ボタン</button>
+<dialog popover id="m1">ダイアログ</dialog>
 ```
 
-さらに、明確に併用できないことがDOM APIで厳密に規定されました。`popover`属性をもつ`dialog`要素が`showModal`を呼び出すと`DOMException`エラーとなります^[2023年2月現在 Chrome Canaryでは未実装]。
+また`popover`属性をもち、既に`dialog`要素がポップオーバー要素として開いている状態で`showModal`を呼び出すと`DOMException`エラーとなります^[[The showModal() method steps](https://html.spec.whatwg.org/multipage/interactive-elements.html#dom-dialog-showmodal)のステップ4参照。2023年9月現在Chromeでは未実装]。
 
-```html
-<dialog popover="auto" id="m1">ダイアログ</dialog>
-```
-
-```js
-const dialog = document.querySelector("#m1");
-
-dialog.showModal();
-// => DOMException例外が投げられます。
-```
-
-Popover APIはあくまでもモードレスなUIにのみ利用できる、という位置づけとなるようです。設計時、実装時ともに気をつけないといけません。
+Popover APIは簡易非表示（Light Dismiss）が便利なため、モーダルダイアログでも利用したいところですが`showModal`メソッドが呼び出せないため、簡易非表示（Light Dismiss）が有効になりません。実装の際は注意が必要です。
 
 ## ブラウザ実装状況
 
-2023年2月19日時点でGoogle Chrome Canaryのみで動作確認できていました。しかし、2023年3月に属性の名前や役割を変えるなどの[仕様変更](https://github.com/whatwg/html/pull/8962)がありました。その影響か動作確認できるブラウザがありません。まだまだ仕様変更が起こる可能性があります。また、[MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes)（[MDNへの追加のIssue](https://github.com/mdn/content/issues/25125)）や[Can I Use](https://caniuse.com/?search=popover)にも情報が作られていないので、徐々に公開されるのを待ちましょう。
+2023年9月現在でChromeとEdgeが対応しています。Safariは`v17`から対応予定です。([HTMLElement API: popover | Can I use](https://caniuse.com/mdn-api_htmlelement_popover))
+
+## ポリフィル
+
+[Popover Attribute Polyfill](https://github.com/oddbird/popover-polyfill)が有志によって提供されています。SafariとFirefox向けに利用してみるとよいでしょう。
+
+```sh
+npm install @oddbird/popover-polyfill
+```
