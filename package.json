@@ -5,7 +5,7 @@
     "lint": "prettier -w \"**/*.md\""
   },
   "devDependencies": {
-    "prettier": "^3.0.3",
-    "zenn-cli": "^0.1.144"
+    "prettier": "^3.5.3",
+    "zenn-cli": "^0.1.158"
   }
 }
