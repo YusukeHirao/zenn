@@ -61,7 +61,7 @@ document.getElementById("close-dialog").addEventListener("click", () => {
 
 ## 対応するイベント
 
-JavaScript不要で実装で、ポップオーバーUIもモーダルダイアログも実装できるようになりましたが、イベントをフックして何かしらの処理を行いたい場合はたまにあります。そこで、それぞれのUIに対応するイベントをまとめてみます。
+JavaScript不要でポップオーバーUIもモーダルダイアログも実装できるようになりましたが、イベントをフックして何かしらの処理を行いたい場合はたまにあります。そこで、それぞれのUIに対応するイベントをまとめてみます。
 
 | イベント名        | イベントオブジェクト                                                                   | バブリング | `<dialog>`                  | Popover                     | Invoker（呼び出し元）ボタン |
 | ----------------- | -------------------------------------------------------------------------------------- | ---------- | --------------------------- | --------------------------- | --------------------------- |
@@ -69,7 +69,7 @@ JavaScript不要で実装で、ポップオーバーUIもモーダルダイア�
 | `beforetoggle`    | [`ToggleEvent`](https://html.spec.whatwg.org/multipage/interaction.html#toggleevent)   | ❌️ しない | ✅️ 表示または非表示の直前  | ✅️ 表示または非表示の直前  | ❌️ 自らは発火しない        |
 | `toggle`          | [`ToggleEvent`](https://html.spec.whatwg.org/multipage/interaction.html#toggleevent)   | ❌️ しない | ✅️ 表示または非表示の直後  | ✅️ 表示または非表示の直後  | ❌️ 自らは発火しない        |
 | `close`           | [`Event`](https://dom.spec.whatwg.org/#interface-event)                                | ❌️ しない | ✅️ 非表示の直後            | ❌️ 発火しない              | ❌️ 自らは発火しない        |
-| `click`（おまけ） | [`PointerEvent`](https://w3c.github.io/pointerevents/#pointerevent-interface)          | ✅️ する   | ❌️ 発火しない              | ❌️ 発火しない              | ✅️ 当然発火しない          |
+| `click`（おまけ） | [`PointerEvent`](https://w3c.github.io/pointerevents/#pointerevent-interface)          | ✅️ する   | ❌️ 発火しない              | ❌️ 発火しない              | ✅️ 当然発火する            |
 
 CodeSandboxに[サンプルコード](https://codesandbox.io/p/sandbox/p7fj2m)を書いたので百聞は一見に如かず、コンソールを見ながらイベントの発火を確認してみてください。
 
